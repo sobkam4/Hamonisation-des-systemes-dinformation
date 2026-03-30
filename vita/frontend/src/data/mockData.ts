@@ -1,0 +1,248 @@
+import type {
+  GuideContent,
+  HomeContent,
+  MapContent,
+  ProfileContent,
+  TrainingContent,
+} from '../lib/types'
+
+export const homeContent: HomeContent = {
+  title: 'VITA',
+  subtitle: 'Prêt à intervenir 24/7',
+  shortcuts: [
+    {
+      title: 'Assistant AURA',
+      subtitle: 'Guidage vocal',
+      icon: 'activity',
+      accent: 'success',
+      target: 'guide',
+    },
+    {
+      title: 'Alertes',
+      subtitle: 'Évènements actuels',
+      icon: 'alert',
+      accent: 'danger',
+      target: 'map',
+    },
+    {
+      title: 'Passeport Vital',
+      subtitle: 'Infos médicales',
+      icon: 'shield',
+      accent: 'info',
+      target: 'profile',
+    },
+    {
+      title: 'Formation',
+      subtitle: 'Micro-cours',
+      icon: 'book',
+      accent: 'success',
+      target: 'training',
+    },
+  ],
+}
+
+export const guideContent: GuideContent = {
+  title: 'Guide de Secours',
+  subtitle: "Protocoles d'intervention",
+  filters: ['Tous', 'Réanimation', 'Obstruction', 'Traumatisme'],
+  protocols: [
+    {
+      title: 'Massage cardiaque',
+      category: 'Réanimation',
+      duration: '5 min',
+      level: 'avancé',
+      icon: 'heart',
+      accent: 'danger',
+    },
+    {
+      title: 'Étouffement',
+      category: 'Obstruction',
+      duration: '2 min',
+      level: 'moyen',
+      icon: 'wind',
+      accent: 'info',
+    },
+    {
+      title: 'Brûlure',
+      category: 'Traumatisme',
+      duration: '3 min',
+      level: 'facile',
+      icon: 'flame',
+      accent: 'warning',
+    },
+    {
+      title: 'Hémorragie / Garrot',
+      category: 'Traumatisme',
+      duration: '4 min',
+      level: 'critique',
+      icon: 'droplets',
+      accent: 'danger',
+    },
+  ],
+}
+
+export const mapContent: MapContent = {
+  title: "Carte d'urgence",
+  subtitle: 'Ressources médicales à proximité',
+  filters: ['Tous', 'DAE', 'Hôpitaux', 'Pharmacies'],
+  resources: [
+    {
+      title: 'DAE - Mairie',
+      subtitle: "Place de l'Hôtel de Ville",
+      category: 'DAE',
+      distance: '120 m',
+      status: 'Disponible',
+      icon: 'zap',
+      accent: 'danger',
+    },
+    {
+      title: 'Hôpital Saint-Michel',
+      subtitle: 'Service urgences adultes',
+      category: 'Hôpitaux',
+      distance: '650 m',
+      status: '24/7',
+      icon: 'building',
+      accent: 'info',
+    },
+    {
+      title: 'Pharmacie Centrale',
+      subtitle: 'Avenue de la République',
+      category: 'Pharmacies',
+      distance: '800 m',
+      status: 'Ouverte',
+      icon: 'pill',
+      accent: 'success',
+    },
+    {
+      title: 'DAE - Gymnase',
+      subtitle: 'Entrée principale',
+      category: 'DAE',
+      distance: '1,2 km',
+      status: 'Accessible',
+      icon: 'zap',
+      accent: 'danger',
+    },
+    {
+      title: 'Pharmacie de Garde',
+      subtitle: 'Boulevard Victor Hugo',
+      category: 'Pharmacies',
+      distance: '1,9 km',
+      status: 'De garde',
+      icon: 'pill',
+      accent: 'success',
+    },
+    {
+      title: 'Centre Hospitalier',
+      subtitle: 'Pôle traumatologie',
+      category: 'Hôpitaux',
+      distance: '2,4 km',
+      status: 'Disponible',
+      icon: 'building',
+      accent: 'info',
+    },
+    {
+      title: 'DAE - Gare',
+      subtitle: 'Hall principal',
+      category: 'DAE',
+      distance: '2,8 km',
+      status: 'Disponible',
+      icon: 'zap',
+      accent: 'danger',
+    },
+  ],
+}
+
+export const trainingContent: TrainingContent = {
+  title: 'Formation',
+  subtitle: 'Développez vos compétences de secouriste',
+  filters: ['Tous', 'Débutant', 'Intermédiaire', 'Avancé'],
+  summary: {
+    completed: 2,
+    total: 6,
+  },
+  courses: [
+    {
+      title: 'Les gestes qui sauvent',
+      category: 'Débutant',
+      duration: '15 min',
+      badge: 'Débutant',
+      reward: 'Bronze',
+      icon: 'check',
+      accent: 'success',
+    },
+    {
+      title: 'Réanimation cardio-pulmonaire',
+      category: 'Intermédiaire',
+      duration: '25 min',
+      badge: 'Intermédiaire',
+      reward: 'Argent',
+      icon: 'check',
+      accent: 'success',
+    },
+    {
+      title: 'Traumatismes graves',
+      category: 'Avancé',
+      duration: '30 min',
+      badge: 'Avancé',
+      reward: 'Vidéo',
+      icon: 'book',
+      accent: 'brand',
+      action: 'play',
+    },
+    {
+      title: 'Allergies et anaphylaxie',
+      category: 'Intermédiaire',
+      duration: '18 min',
+      badge: 'Intermédiaire',
+      reward: 'Argent',
+      icon: 'alert',
+      accent: 'warning',
+    },
+  ],
+}
+
+export const profileContent: ProfileContent = {
+  title: 'Passeport Vital',
+  subtitle: "Vos informations médicales d'urgence",
+  name: 'Jean Martin',
+  meta: '35 ans • Masculin',
+  bloodGroup: 'A+',
+  donorStatus: 'Oui',
+  allergies: ['Pénicilline', 'Arachides'],
+  conditions: ['Asthme'],
+  medications: ['Ventoline 100µg'],
+  metrics: [
+    {
+      title: 'A+',
+      subtitle: 'Groupe sanguin',
+      icon: 'droplets',
+      accent: 'danger',
+    },
+    {
+      title: 'Oui',
+      subtitle: "Donneur d'organes",
+      icon: 'heart',
+      accent: 'success',
+    },
+  ],
+  sections: [
+    {
+      title: 'Allergies',
+      icon: 'alert',
+      accent: 'danger',
+      items: ['Pénicilline', 'Arachides'],
+    },
+    {
+      title: 'Pathologies',
+      icon: 'activity',
+      accent: 'info',
+      items: ['Asthme'],
+    },
+    {
+      title: 'Traitements en cours',
+      icon: 'pill',
+      accent: 'success',
+      items: ['Ventoline 100µg'],
+    },
+  ],
+}

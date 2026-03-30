@@ -1,0 +1,124 @@
+# Configuration pour le développement
+# Usage: docker-compose -f docker-compose.dev.yml up
+
+services:
+  # Base de données PostgreSQL
+  db:
+    image: postgres:15
+    environment:
+      POSTGRES_DB: location_erp
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - postgres_data_dev:/var/lib/postgresql/data/
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - erp-network
+
+  # Redis pour Celery (optionnel en dev)
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data_dev:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - erp-network
+
+  # Backend Django - Mode développement avec hot-reload
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - ./backend:/app
+      - media_volume_dev:/app/media
+      - static_volume_dev:/app/staticfiles
+    ports:
+      - "8000:8000"
+    environment:
+      - DEBUG=1
+      - SECRET_KEY=dev-secret-key-change-in-production
+      - POSTGRES_DB=location_erp
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_HOST=db
+      - POSTGRES_PORT=5432
+      - REDIS_URL=redis://redis:6379/0
+      - ALLOWED_HOSTS=localhost,127.0.0.1,backend
+      - CORS_ALLOWED_ORIGINS=http://localhost:3000,http://127.0.0.1:3000,http://frontend:3000
+      - USE_S3=false
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - erp-network
+
+  # Frontend Next.js - Mode développement avec hot-reload
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.dev
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./frontend:/app
+      - frontend_node_modules:/app/node_modules
+      - frontend_next:/app/.next
+    environment:
+      - NEXT_PUBLIC_API_URL=http://localhost:8000/api
+      - NODE_ENV=development
+    depends_on:
+      - backend
+    networks:
+      - erp-network
+
+  # Celery Worker (optionnel en dev)
+  celery:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    command: celery -A location_erp worker -l info
+    volumes:
+      - ./backend:/app
+    environment:
+      - DEBUG=1
+      - SECRET_KEY=dev-secret-key-change-in-production
+      - POSTGRES_DB=location_erp
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_HOST=db
+      - POSTGRES_PORT=5432
+      - REDIS_URL=redis://redis:6379/0
+      - USE_S3=false
+    depends_on:
+      - db
+      - redis
+    networks:
+      - erp-network
+
+volumes:
+  postgres_data_dev:
+  redis_data_dev:
+  media_volume_dev:
+  static_volume_dev:
+  frontend_node_modules:
+  frontend_next:
+
+networks:
+  erp-network:
+    driver: bridge
